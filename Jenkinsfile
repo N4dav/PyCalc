@@ -24,11 +24,10 @@ pipeline {
     }
     stage('Push Image to ECR') {
         steps {
-            //$(aws ecr get-login-password)
             sh "docker push 808633698297.dkr.ecr.eu-central-1.amazonaws.com/pycalc:build-${env.BUILD_NUMBER}"
-            
-            }
         }
+    }
+        
     stage('Deploy to EKS') {
         agent {
             label 'agent3'
@@ -38,14 +37,7 @@ pipeline {
                 def login_password = sh(returnStdout: true, stdout: '/dev/null', script: 'aws ecr get-login-password').trim()
                 sh "echo ${login_password} | docker login --username AWS --password-stdin https://808633698297.dkr.ecr.eu-central-1.amazonaws.com"
             }
-            // Pull the image from ECR
-            sh 'docker pull 808633698297.dkr.ecr.eu-central-1.amazonaws.com/pycalc:build-$BUILD_NUMBER'
-            // Add kubectl to the PATH
-            sh 'export PATH=$PATH:~/bin'
-            withKubeConfig(clusterName: 'pycalc1', contextName: 'nadav@pycalc1.eu-central-1.eksctl.io', credentialsId: 'Kubectl', namespace: 'default', serverUrl: 'https://C0B96C9DCF7B80ECFD890C1302DB489C.yl4.eu-central-1.eks.amazonaws.com') {
-            sh 'kubectl apply -f calc-deploy.yml'
-}     
-            
+            sh 'kubectl apply -f /home/ec2-user/calc-deploy.yml'
             }
         }
     }
