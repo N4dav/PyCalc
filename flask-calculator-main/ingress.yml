@@ -9,7 +9,8 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-   - host: afdf6b5d8020442d38f10ccb73b78ed2-399757259.eu-central-1.elb.amazonaws.com
+   #- host: afdf6b5d8020442d38f10ccb73b78ed2-399757259.eu-central-1.elb.amazonaws.com
+   - host: pycalc.default.svc.cluster.local
      http:
       paths:
       - path: /
