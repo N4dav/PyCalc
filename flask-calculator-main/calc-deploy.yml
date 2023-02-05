@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pycalc
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pycalc
+  template:
+    metadata:
+      labels:
+        app: pycalc
+    spec:
+      containers:
+      - name: pycalc
+        image: 808633698297.dkr.ecr.eu-central-1.amazonaws.com/pycalc:build-145
+        ports:
+        - containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pycalc
+spec:
+  type: LoadBalancer
+  selector:
+    app: pycalc
+  ports:
+      # 'Port' is with the LB, 'nodePort' is the one exposed by the cluster, 'targetPort' is the container(=app) port
+      
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+      nodePort: 30012
+
