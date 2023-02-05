@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: pycalc
-        image: 808633698297.dkr.ecr.eu-central-1.amazonaws.com/pycalc:latest
+        image: 808633698297.dkr.ecr.eu-central-1.amazonaws.com/pycalc:build-179
         ports:
         - containerPort: 3000
         env:
