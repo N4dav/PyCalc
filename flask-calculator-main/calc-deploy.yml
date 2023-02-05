@@ -17,6 +17,9 @@ spec:
         image: 808633698297.dkr.ecr.eu-central-1.amazonaws.com/pycalc:latest
         ports:
         - containerPort: 3000
+        env:
+        - name: ELB_NAME
+          value: "${ELB_NAME}"
 
 ---
 
@@ -58,4 +61,3 @@ spec:
             name: pycalc
             port:
               number: 80
-  externalName: "${ELB_NAME}"
